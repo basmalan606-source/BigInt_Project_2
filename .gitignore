@@ -1,0 +1,29 @@
+
+# Visual Studio temporary files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build folders
+Debug/
+Release/
+x64/
+x86/
+out/
+build/
+
+# Compiled files
+*.obj
+*.o
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.pch
+*.idb
+*.ipch
+
+# Visual Studio cache
+ipch/

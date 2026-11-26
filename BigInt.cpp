@@ -90,7 +90,55 @@ public:
 
     // Modulus assignment operator (x %= y)
     BigInt& operator%=(const BigInt& other) {
-        // TODO: Implement this operator
+        if (other.number == "0") {
+            throw runtime_error("Division by zero");
+        }
+        bool sign = isNegative;
+        string remainder = "0";
+
+        for (int i = 0; i < number.length(); i++) {
+            if (remainder == "0") {
+                remainder = number.substr(i, 1);
+            }
+            else
+                remainder += number[i];
+
+            while (remainder.length() > 1 && remainder[0] == '0')
+                remainder.erase(0, 1);
+
+            while (remainder.length() > other.number.length() ||
+                (remainder.length() == other.number.length() &&
+                    remainder >= other.number)) {
+
+                int borrow = 0;
+                int j = remainder.length() - 1;
+                int k = other.number.length() - 1;
+
+                while (j >= 0) {
+                    int digit1 = remainder[j] - '0' - borrow;
+                    int digit2 = 0;
+                    if (k >= 0) {
+                        digit2 = other.number[k] - '0';
+                    }
+
+                    if (digit1 < digit2) {
+                        digit1 += 10;
+                        borrow = 1;
+                    }
+                    else {
+                        borrow = 0;
+                    }
+                    remainder[j] = digit1 - digit2 + '0';
+                    j--;
+                    k--;
+                }
+                while (remainder.length() > 1 && remainder[0] == '0')
+                    remainder.erase(0, 1);
+            }
+        }
+        number = remainder;
+        isNegative = sign;
+        removeLeadingZeros();
         return *this;
     }
 
@@ -128,13 +176,20 @@ public:
 
     // Output stream operator (for printing)
     friend ostream& operator<<(ostream& os, const BigInt& num) {
-        // TODO: Implement this operator
+        if (num.isNegative && num.number != "0"){
+            os << "-";
+            }
+        os << num.number;
         return os;
     }
 
     // Input stream operator (for reading from input)
     friend istream& operator>>(istream& is, BigInt& num) {
-        // TODO: Implement this operator
+        string str;
+        if (is >> str) {
+            BigInt temp(str);
+            num = temp;
+        }
         return is;
     }
 
@@ -146,21 +201,24 @@ public:
 // Binary addition operator (x + y)
 BigInt operator+(BigInt lhs, const BigInt& rhs) {
     BigInt result;
-    // TODO: Implement this operator
+    result = lhs;
+    result += rhs;
     return result;
 }
 
 // Binary subtraction operator (x - y)
 BigInt operator-(BigInt lhs, const BigInt& rhs) {
     BigInt result;
-    // TODO: Implement this operator
+    result = lhs;
+    result -= rhs;
     return result;
 }
 
 // Binary multiplication operator (x * y)
 BigInt operator*(BigInt lhs, const BigInt& rhs) {
     BigInt result;
-    // TODO: Implement this operator
+    result = lhs;
+    result *= rhs;
     return result;
 }
 

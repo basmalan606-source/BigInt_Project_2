@@ -8,30 +8,98 @@ class BigInt {
 
     // Remove unnecessary leading zeros from the number string
     void removeLeadingZeros() {
-        // TODO: Implement this function
+        int count = 0;
+        int l = number.size();
+        for (int i = 0; i < l; i++)
+        {
+            if( number[i] == '0')
+            {
+                count += 1;
+            }
+            else
+            {
+                number=number.erase(0, count);
+                break;
+            }
+        }
+        if(count == l)
+            {
+                number = "0";
+                isNegative = false;
+            }
     }
 
     // Compare absolute values of two BigInts (ignore signs)
     // Returns: 1 if |this| > |other|, 0 if equal, -1 if |this| < |other|
     int compareMagnitude(const BigInt& other) const {
-        // TODO: Implement this function
+        if (number.size() > other.number.size())
+        {
+            return 1;
+        }
+        else if (number.size() < other.number.size())
+        {
+            return -1;
+        }
+
+        for(int i = 0; i < number.size(); i++)
+        {
+            if (number[i] > other.number[i])
+            {
+                return 1;
+            }
+            else if (number[i] < other.number[i])
+            {
+                return -1;
+            }   
+        }
         return 0;
     }
 
 public:
     // Default constructor - initialize to zero
     BigInt() {
-        // TODO: Implement this constructor
+        number = "0";
+        isNegative = false;
     }
 
     // Constructor from 64-bit integer
     BigInt(int64_t value) {
-        // TODO: Implement this constructor
+        if( value < 0)
+        {
+            isNegative = true;
+        }
+        else
+        {
+            isNegative = false;
+        }
+        
+        uint64_t magnitude;
+        if(isNegative)
+        {
+        //converting to uint64_t and subtracting it from unsigned 
+        // zero gives its positive magnitude through unsigned arithmetic.
+            magnitude = 0 - static_cast<uint64_t>(value);  
+        }
+        else
+        {
+            magnitude =static_cast<uint64_t>(value);
+        }
+        number = to_string(magnitude);
     }
 
     // Constructor from string representation
     BigInt(const string& str) {
-        // TODO: Implement this constructor
+        number= str;
+        if(number[0] == '-')
+        {
+            isNegative = true;
+            number.erase(0, 1);
+        }
+        else
+        {
+            isNegative = false;
+        }
+        removeLeadingZeros();
     }
 
     // Copy constructor

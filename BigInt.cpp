@@ -104,31 +104,38 @@ public:
 
     // Copy constructor
     BigInt(const BigInt& other) {
-        // TODO: Implement this constructor
+        number = other.number;
+        isNegative = other.isNegative;
     }
 
     // Destructor
     ~BigInt() {
-        // TODO: Implement if needed
+    
     }
 
     // Assignment operator
     BigInt& operator=(const BigInt& other) {
-        // TODO: Implement this operator
+        if (this == &other)
+        return *this;
+        
+        number = other.number;
+        isNegative = other.isNegative;
         return *this;
     }
 
     // Unary negation operator (-x)
     BigInt operator-() const {
-        BigInt result;
-        // TODO: Implement negation logic
+        BigInt result = *this;
+        if (result.number != "0"){
+            result.isNegative = !result.isNegative;
+        }
+        
         return result;
     }
 
     // Unary plus operator (+x)
     BigInt operator+() const {
-        BigInt result;
-        // TODO: Implement this operator
+        BigInt result = *this;
         return result;
     }
 
@@ -293,14 +300,16 @@ BigInt operator*(BigInt lhs, const BigInt& rhs) {
 // Binary division operator (x / y)
 BigInt operator/(BigInt lhs, const BigInt& rhs) {
     BigInt result;
-    // TODO: Implement this operator
+    result = lhs;
+    result /= rhs;
     return result;
 }
 
 // Binary modulus operator (x % y)
 BigInt operator%(BigInt lhs, const BigInt& rhs) {
     BigInt result;
-    // TODO: Implement this operator
+    result = lhs;
+    result %= rhs;
     return result;
 }
 
